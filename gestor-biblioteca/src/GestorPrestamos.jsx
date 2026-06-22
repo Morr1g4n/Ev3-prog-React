@@ -27,13 +27,50 @@ function GestorPrestamos(){
         <>
             <h1>Gestor Biblioteca</h1>
             <form>
+                {/* Contenedor de formulario  Nombre*/}
                 <div class="form-group">
                     <label for="InputNombre"> Nombre</label>
-                    <input ref={nombreRef} placeholder="Nombre" className="form-control form-control-lg" type="text" minLength={"4"} maxLength={"40"} required name="" id="" ></input>
+                    <input 
+                        ref={nombreRef} 
+                        placeholder="Nombre" 
+                        className="form-control form-control-lg" 
+                        type="text"  minLength="4" maxLength="40" required 
+                        name="" id="" 
+                    />
                 </div>
+                
+                {/* Contenedor de formulario Rut*/}
+                <div class="form-group">
+                    <input
+                        ref= {rutRef}
+                        placeholder="EJ: 12345678-9"
+                        className= "form-control form-control-lg"
+                        type="text"  pattern="[0-9]{7,8}-[0-9kK]*/"
+                        name ="" id=""
+                    />
+                </div>
+
+                {/* Contenedor de formulario Libro*/}
                 <div class="form-group">
                     <label for="InputLibro"> Libro</label>
-                    <input ref={libroRef} placeholder="Libro" className="form-control form-control-lg" type="text"  minLength={"4"} maxLength={"40"} required name="" id="" ></input>
+                    <input 
+                        ref={libroRef} 
+                        placeholder="Libro" 
+                        className="form-control form-control-lg" 
+                        type="text"  minLength="4" maxLength="40" required 
+                        name="" id="" 
+                    />
+                </div>
+
+                {/* Contenedor de formulario Fecha*/}
+                <div class="form-group">
+                    <label for="InputFecha"></label>
+                    <input
+                        ref={fechaRef}
+                        className="form-control form-control-lg"
+                        type="date"
+                    />
+
                 </div>
                 <button type="submit" class="btn btn-primary">Ingresar</button>
             </form>    
