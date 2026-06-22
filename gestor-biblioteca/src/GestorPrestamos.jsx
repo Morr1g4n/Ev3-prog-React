@@ -17,7 +17,7 @@ function GestorPrestamos(){
     const libroRef=useRef();
     const fechaRef=useRef();
 
-    const agregarTarea=()=>{
+    const agregarPrestamo=()=>{
         const nombre=nombreRef.current.value;
         const id=uuid();
         console.log(id);
@@ -29,11 +29,11 @@ function GestorPrestamos(){
             <form>
                 {/* Contenedor de formulario  Nombre*/}
                 <div class="form-group">
-                    <label for="InputNombre"> Nombre</label>
+                    <label for="InputNombre">Nombre</label>
                     <input 
                         ref={nombreRef} 
                         placeholder="Nombre" 
-                        className="form-control form-control-lg" 
+                        className="form-control" 
                         type="text"  minLength="4" maxLength="40" required 
                         name="" id="" 
                     />
@@ -41,22 +41,23 @@ function GestorPrestamos(){
                 
                 {/* Contenedor de formulario Rut*/}
                 <div class="form-group">
+                    <label for="InputRUT">RUT</label>
                     <input
                         ref= {rutRef}
                         placeholder="EJ: 12345678-9"
-                        className= "form-control form-control-lg"
-                        type="text"  pattern="[0-9]{7,8}-[0-9kK]*/"
+                        className= "form-control"
+                        type="text"  pattern="^[0-9]{7,8}-[0-9kK]$*/"
                         name ="" id=""
                     />
                 </div>
 
                 {/* Contenedor de formulario Libro*/}
                 <div class="form-group">
-                    <label for="InputLibro"> Libro</label>
+                    <label for="InputLibro">Libro</label>
                     <input 
                         ref={libroRef} 
                         placeholder="Libro" 
-                        className="form-control form-control-lg" 
+                        className="form-control" 
                         type="text"  minLength="4" maxLength="40" required 
                         name="" id="" 
                     />
@@ -64,11 +65,13 @@ function GestorPrestamos(){
 
                 {/* Contenedor de formulario Fecha*/}
                 <div class="form-group">
-                    <label for="InputFecha"></label>
+                    <label for="InputFecha">Fecha</label>
                     <input
                         ref={fechaRef}
-                        className="form-control form-control-lg"
-                        type="date"
+                        placeholder="DD/MM/AAAA"
+                        className="form-control"
+                        type="text" required
+                        name="" id=""
                     />
 
                 </div>
