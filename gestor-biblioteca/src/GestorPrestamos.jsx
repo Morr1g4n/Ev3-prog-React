@@ -4,13 +4,41 @@ import './GestorPrestamos.css'
 import PrestamosIn from "./GPrestamosIn.jsx"; /*Componente Hijo */
 const KEY="lista-prestamos" /*array en el localstorage*/
 
+
 function GestorPrestamos(){
+    {/*constantes para guardar los datos de la api*/}
+    const [ufValor, setUfValor] = useState(null);
+    const [dolarValor, setDolarValor] = useState(null);
+    const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState(null);
+
     const [prestamos,setPrestamos]=useState(
         JSON.parse(localStorage.getItem(KEY))?JSON.parse(localStorage.getItem(KEY)):[]
     );
     
     const [idEditando, setIdEditando] = useState(null);
 
+    {/*efecto que consume la api y trae los datos de uf y dolar*/}
+    useEffect(() => {
+    fetch("https://findic.cl/api/")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al conectar con la API");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUfValor(data.uf.valor);
+        setDolarValor(data.dolar.valor);
+        setCargando(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("No se pudo cargar el valor");
+        setCargando(false);
+      });
+  }, []);
+  
     useEffect(()=>{
         localStorage.setItem(KEY,JSON.stringify(prestamos));
         },[prestamos])
@@ -184,6 +212,37 @@ const cargarPrestamoAEditar = (prestamo) => {
                         </tbody>
                     </table>
                 </div>
+                {/*tabla de boostrap con lo que trajo la api + manejo de errores*/}
+                <div className="mt-5 p-4 bg-light rounded border">
+                    <h3 className="mb-3">Indicadores Económicos Actuales</h3>
+                    
+                    {cargando && <p className="text-muted text-center py-2">Cargando indicadores económicos...</p>}
+                    
+                    {error && <p className="text-danger text-center py-2">Error: {error}</p>}
+                    
+                    {!cargando && !error && (
+                        <div className="table-responsive">
+                            <table className="table table-sm table-hover table-bordered bg-white w-50 m-auto text-center">
+                                <thead className="table-secondary">
+                                    <tr>
+                                        <th>Indicador</th>
+                                        <th>Valor Actual</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="fw-bold">Unidad de Fomento (UF)</td>
+                                        <td className="text-success fw-bold">${ufValor?.toLocaleString('es-CL')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="fw-bold">Dólar (USD)</td>
+                                        <td className="text-primary fw-bold">${dolarValor?.toLocaleString('es-CL')}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+            </div>
         </>
     );
 };
