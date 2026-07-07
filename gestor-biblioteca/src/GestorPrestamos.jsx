@@ -9,6 +9,7 @@ function GestorPrestamos(){
     {/*constantes para guardar los datos de la api*/}
     const [ufValor, setUfValor] = useState(null);
     const [dolarValor, setDolarValor] = useState(null);
+    const [euroValor, setEuroValor] = useState(null);
     const [cargando, setCargando] = useState(true);
     const [error, setError] = useState(null);
 
@@ -30,6 +31,7 @@ function GestorPrestamos(){
       .then((data) => {
         setUfValor(data.uf.valor);
         setDolarValor(data.dolar.valor);
+        setEuroValor(data.euro.valor);
         setCargando(false);
       })
       .catch((err) => {
@@ -182,7 +184,7 @@ const cargarPrestamoAEditar = (prestamo) => {
                 </div>
             </form>
 
-                <div className="table-responsive mt-4">
+                <div className="table-responsive mt-4 mb-5">
                     <table className="table table-striped table-bordered">
                         <thead className="table-dark">
                             <tr>
@@ -212,36 +214,40 @@ const cargarPrestamoAEditar = (prestamo) => {
                         </tbody>
                     </table>
                 </div>
-                {/*tabla de boostrap con lo que trajo la api + manejo de errores*/}
-                <div className="mt-5 p-4 bg-light rounded border">
-                    <h3 className="mb-3">Indicadores Económicos Actuales</h3>
-                    
-                    {cargando && <p className="text-muted text-center py-2">Cargando indicadores económicos...</p>}
-                    
-                    {error && <p className="text-danger text-center py-2">Error: {error}</p>}
-                    
-                    {!cargando && !error && (
-                        <div className="table-responsive">
-                            <table className="table table-sm table-hover table-bordered bg-white w-50 m-auto text-center">
-                                <thead className="table-secondary">
-                                    <tr>
-                                        <th>Indicador</th>
-                                        <th>Valor Actual</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className="fw-bold">Unidad de Fomento (UF)</td>
-                                        <td className="text-success fw-bold">${ufValor?.toLocaleString('es-CL')}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="fw-bold">Dólar (USD)</td>
-                                        <td className="text-primary fw-bold">${dolarValor?.toLocaleString('es-CL')}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+            {/*tabla de bootstrap con lo que trajo la api + manejo de errores*/}
+            <div className="mt-5 p-4 px-0 bg-white rounded border shadow-sm w-100">
+                <h3 className="mb-4 text-center fw-bold titulo-indicadores">Indicadores Económicos Actuales</h3>
+                
+                {cargando && <p className="text-muted text-center py-2">Cargando indicadores económicos...</p>}
+                
+                {error && <p className="text-danger text-center py-2">Error: {error}</p>}
+                
+                {!cargando && !error && (
+                    <div className="table-responsive">
+                        <table className="table table-striped table-hover align-middle mb-0">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th className="text-start ps-3">Indicador</th>
+                                    <th className="text-end pe-3">Valor Actual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td className="text-start ps-3 fw-semibold text-muted">Unidad de Fomento (UF)</td>
+                                    <td className="text-end pe-3 fw-bold text-success">${ufValor?.toLocaleString('es-CL')}</td>
+                                </tr>
+                                <tr>
+                                    <td className="text-start ps-3 fw-semibold text-muted">Dólar (USD)</td>
+                                    <td className="text-end pe-3 fw-bold text-primary">${dolarValor?.toLocaleString('es-CL')}</td>
+                                </tr>
+                                <tr>
+                                    <td className="text-start ps-3 fw-semibold text-muted">Euro (EUR)</td>
+                                    <td className="text-end pe-3 fw-bold text-purple" style={{ color: '#6f42c1' }}>${euroValor?.toLocaleString('es-CL')}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </>
     );
